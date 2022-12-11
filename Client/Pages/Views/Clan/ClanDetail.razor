@@ -1,0 +1,23 @@
+﻿@page "/clan/{tag}"
+
+<div class="row">
+    <div class="col-xl-3 col-lg-6 col-md-12 col-12">
+        <Card BorderSize="BorderSizeType.Rounded_3">
+            <CardBody>
+                <FlexBox Align="FlexAlignType.Center" Justify="FlexJustifyType.Between" CSSClass="mb-3">
+                    <div>
+                        <h4 class="mb-0">Clan Points</h4>
+                    </div>
+                    <div class="icon-shape icon-md rounded-1">
+                        <Avatar Source="/assets/images/trophies/Trophy.png" AlternateText="archer" Size="SizeType.MD" Border="ImageBorderType.Rounded" />
+                    </div>
+                </FlexBox>
+                <div>
+                    <h1 class="fw-bold">@Clan.ClanPoints</h1>
+                </div>
+            </CardBody>
+        </Card>
+    </div>
+</div>
+
+<PreLoader Visibility="IsSearching" />

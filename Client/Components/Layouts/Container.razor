@@ -1,0 +1,24 @@
+﻿<div class="@CombinedContainerStyle">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public ContainerType Type { get; set; }
+    [Parameter] public MaxWidthType Width { get; set; }
+    [Parameter] public string CSSClass { get; set; }
+
+    string ContainerStyle => GetContainerStyle();
+    string CombinedContainerStyle => string.Join(" ", ContainerStyle, CSSClass).RemoveWhiteSpaces();
+
+    string GetContainerStyle()
+    {
+        var prefix = UIConstants.ContainerPrefix;
+        return Type switch
+        {
+            ContainerType.Fluid => $"{prefix}-{UIConstants.ContainerFluid}",
+            ContainerType.Responsive => $"{prefix}-{Width.GetDisplayName()}",
+            _ => prefix
+        };
+    }
+}

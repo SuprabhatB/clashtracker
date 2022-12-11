@@ -1,0 +1,18 @@
+﻿<tr class="@CombinedTableRowStyle">
+    @ChildContent
+</tr>
+
+@code {
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public ColorType Variant { get; set; }
+    [Parameter] public TableAlignType Align { get; set; }
+    [Parameter] public bool IsActive { get; set; }
+    [Parameter] public string CSSClass { get; set; }
+
+    string TableRowActiveStyle => IsActive ? $"{UIConstants.TablePrefix}-{UIConstants.ElementActive}" : default;
+    string TableRowVariantStyle => Variant.GetTableVariant();
+    string TableRowAlignStyle => Align.GetTableAlign();
+
+    string CombinedTableRowStyle
+        => string.Join(" ", TableRowVariantStyle, TableRowAlignStyle, TableRowActiveStyle, CSSClass).RemoveWhiteSpaces();
+}

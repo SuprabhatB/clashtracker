@@ -1,0 +1,66 @@
+﻿<th class="@CombinedTableRowStyle" @attributes="Attributes">
+    @Text.ToSentenceCase()
+</th>
+
+@code {
+    [Parameter] public TableScopeType Scope { get; set; }
+    [Parameter] public ColorType Variant { get; set; }
+    [Parameter] public TableAlignType Align { get; set; }
+    [Parameter] public TextAlignType TextAlign { get; set; }
+    [Parameter] public string Text { get; set; }
+    [Parameter] public string CSSClass { get; set; }
+    [Parameter] public sbyte Width { get; set; }
+    [Parameter] public sbyte Height { get; set; }
+    [Parameter] public sbyte ColSpan { get; set; }
+    [Parameter] public sbyte RowSpan { get; set; }
+
+    string TableRowHeaderVariantStyle => Variant.GetTableVariant();
+    string TableRowHeaderAlignStyle => Align.GetTableAlign();
+    string TableRowHeaderTextAlignStyle => TextAlign.GetTextAlign();
+
+    string CombinedTableRowStyle
+        => string.Join(" ", TableRowHeaderVariantStyle, TableRowHeaderAlignStyle, TableRowHeaderTextAlignStyle, CSSClass).RemoveWhiteSpaces();
+
+    IReadOnlyDictionary<string, object> Attributes => GetCustomAttributes();
+
+    const string styleSeperator = "; ";
+
+    IReadOnlyDictionary<string, object> GetCustomAttributes()
+    {
+        var attributes = new Dictionary<string, object>();
+
+        if (Scope != TableScopeType.None)
+        {
+            attributes.Add(UIConstants.AttributeScope, Scope.GetDisplayName());
+        }
+
+        if (Height > 0 || Width > 0)
+        {
+            var styles = new List<string>();
+
+            if (Height > 0)
+            {
+                styles.Add($"{UIConstants.AttributeHeight}: {Height}%");
+            }
+
+            if (Width > 0)
+            {
+                styles.Add($"{UIConstants.AttributeWidth}: {Width}%");
+            }
+
+            attributes.Add(UIConstants.AttributeStyle, string.Join(styleSeperator, styles));
+        }
+
+        if (ColSpan > 0)
+        {
+            attributes.Add(UIConstants.AttributeTableColspan, ColSpan);
+        }
+
+        if (RowSpan > 0)
+        {
+            attributes.Add(UIConstants.AttributeTableRowspan, RowSpan);
+        }
+
+        return attributes;
+    }
+}

@@ -1,0 +1,8 @@
+﻿<span class="@CSSClass" aria-hidden="true">@ChildContent</span>
+<span class="sr-only">@SRContent</span>
+
+@code {
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public RenderFragment SRContent { get; set; }
+    [Parameter] public string CSSClass { get; set; }
+}

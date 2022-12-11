@@ -1,0 +1,46 @@
+﻿@page "/clans"
+
+@inject IUriHelper Uri
+
+@using ClashTracker.Shared.Models.Clan;
+
+<Card BorderSize="BorderSizeType.Rounded_0" CSSClass="page-sec">
+    <CardBody>
+
+        <ClanSearchForm OnClanSearch="(args) => Clans = args" />
+
+        <hr />
+
+        <div class="my-2">
+            <DataGrid TItem="ClanReadModel" ItemSource="Clans" IsBordered="true" TextAlign="TextAlignType.Center">
+                <HeaderColumns>
+                    <TableRowHeader Text="@nameof(ClanReadModel.Badge)" Width="10" />
+                    <TableRowHeader Text="@nameof(ClanReadModel.Name)" Width="30" />
+                    <TableRowHeader Text="@nameof(ClanReadModel.Tag)" Width="20" />
+                    <TableRowHeader Text="@nameof(ClanReadModel.ClanLevel)" Width="20" />
+                    <TableRowHeader Text="@nameof(ClanReadModel.Members)" Width="20" />
+                </HeaderColumns>
+                <RowColumns>
+                    <TableRowColumn Width="10">
+                        <Template>
+                            @if (context.Badge != null)
+                            {
+                                <Avatar Source="@context.Badge.Small" Size="SizeType.XS" Border="ImageBorderType.Circle" AlternateText="@context.Tag" />
+                            }
+                        </Template>
+                    </TableRowColumn>
+                    <TableRowColumn Width="30">
+                        <Template>
+                            <NavLink class="btn-link" href="@Uri.NavigateTo(RouteConstants.ClanView, context.Name)" role="button">
+                                @context.Name
+                            </NavLink>
+                        </Template>
+                    </TableRowColumn>
+                    <TableRowColumn Value="@context.Tag" Width="20" />
+                    <TableRowColumn Value="@context.ClanLevel" Width="20" />
+                    <TableRowColumn Value="@context.Members" Width="20" />
+                </RowColumns>
+            </DataGrid>
+        </div>
+    </CardBody>
+</Card>

@@ -1,0 +1,56 @@
+﻿<td class="@CombinedTableRowStyle" @attributes="Attributes">
+    @if (Template != null)
+    {
+        @Template
+    }
+    else
+    {
+        @Value
+    }
+</td>
+
+@code {
+    [Parameter] public RenderFragment Template { get; set; }
+    [Parameter] public ColorType Variant { get; set; }
+    [Parameter] public TableAlignType Align { get; set; }
+    [Parameter] public TextAlignType TextAlign { get; set; }
+    [Parameter] public object Value { get; set; }
+    [Parameter] public string CSSClass { get; set; }
+    [Parameter] public sbyte Width { get; set; }
+    [Parameter] public sbyte Height { get; set; }
+
+    string TableRowColumnVariantStyle => Variant.GetTableVariant();
+    string TableRowColumnAlignStyle => Align.GetTableAlign();
+    string TableRowColumnTextAlignStyle => TextAlign.GetTextAlign();
+
+    string CombinedTableRowStyle
+        => string.Join(" ", TableRowColumnVariantStyle, TableRowColumnAlignStyle, TableRowColumnTextAlignStyle, CSSClass).RemoveWhiteSpaces();
+
+    IReadOnlyDictionary<string, object> Attributes => GetCustomAttributes();
+
+    const string styleSeperator = "; ";
+
+    IReadOnlyDictionary<string, object> GetCustomAttributes()
+    {
+        var attributes = new Dictionary<string, object>();
+
+        if (Height > 0 || Width > 0)
+        {
+            var styles = new List<string>();
+
+            if (Height > 0)
+            {
+                styles.Add($"{UIConstants.AttributeHeight}: {Height}%");
+            }
+
+            if (Width > 0)
+            {
+                styles.Add($"{UIConstants.AttributeWidth}: {Width}%");
+            }
+
+            attributes.Add(UIConstants.AttributeStyle, string.Join(styleSeperator, styles));
+        }
+
+        return attributes;
+    }
+}

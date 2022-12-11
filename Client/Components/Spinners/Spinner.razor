@@ -1,0 +1,62 @@
+﻿<div class="@CombinedSpinnerStyle" role="status" @attributes="Attributes">
+    <span class="visually-hidden">&nbsp;</span>
+</div>
+
+@code {
+    [Parameter] public SpinnerType Type { get; set; }
+    [Parameter] public ColorType Variant { get; set; }
+    [Parameter] public SizeType Size { get; set; }
+    [Parameter] public bool UseCustomStyle { get; set; }
+    [Parameter] public int Height { get; set; }
+    [Parameter] public int Width { get; set; }
+
+    string SpinnerStyle => $"{UIConstants.SpinnerPrefix}-{Type.GetDisplayName()}";
+    string SpinnerSizeStyle => GetSpinnerSize();
+    string SpinnerVariantStyle => GetSpinnerVariant();
+
+    string CombinedSpinnerStyle => string.Join(" ", SpinnerStyle, SpinnerSizeStyle, SpinnerVariantStyle).RemoveWhiteSpaces();
+
+    IReadOnlyDictionary<string, object> Attributes => GetCustomAttributes();
+
+    const string styleSeperator = "; ";
+
+    string GetSpinnerVariant()
+    {
+        if (Variant == ColorType.None)
+            return default;
+
+        return $"{UIConstants.TextPrefix}-{Variant.GetDisplayName()}";
+    }
+
+    string GetSpinnerSize()
+    {
+        if (Size == SizeType.None || UseCustomStyle)
+            return default;
+
+        return $"{UIConstants.SpinnerPrefix}-{Type.GetDisplayName()}-{Size.GetDisplayName()}";
+    }
+
+    IReadOnlyDictionary<string, object> GetCustomAttributes()
+    {
+        var attributes = new Dictionary<string, object>();
+
+        if (UseCustomStyle)
+        {
+            var styles = new List<string>();
+
+            if (Height > 0)
+            {
+                styles.Add($"{UIConstants.AttributeHeight}: {Height}rem");
+            }
+
+            if (Width > 0)
+            {
+                styles.Add($"{UIConstants.AttributeWidth}: {Width}rem");
+            }
+
+            attributes.Add(UIConstants.AttributeStyle, string.Join(styleSeperator, styles));
+        }
+
+        return attributes;
+    }
+}

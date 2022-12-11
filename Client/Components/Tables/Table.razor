@@ -1,0 +1,50 @@
+﻿@inject IIdGenerator IdGenerator
+
+<table id="@ElementId" class="@CombinedTableStyle">
+    @ChildContent
+</table>
+
+@code {
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public ColorType Variant { get; set; }
+    [Parameter] public ColorType BorderVariant { get; set; }
+    [Parameter] public TableAlignType Align { get; set; }
+    [Parameter] public TextAlignType TextAlign { get; set; }
+    [Parameter] public bool IsBordered { get; set; }
+    [Parameter] public bool IsBorderless { get; set; }
+    [Parameter] public bool IsStriped { get; set; }
+    [Parameter] public bool IsHover { get; set; }
+    [Parameter] public bool IsNarrow { get; set; }
+    [Parameter] public string CSSClass { get; set; }
+    [Parameter] public string Id { get; set; }
+
+    [Parameter] public Action<string> OnUIDCreated { get; set; }
+
+    string TableStyle => UIConstants.TablePrefix;
+    string TableBorderStyle => IsBordered ? $"{UIConstants.TablePrefix}-{UIConstants.TableBordered}" : default;
+    string TableBorderlessStyle => IsBorderless ? $"{UIConstants.TablePrefix}-{UIConstants.TableBorderless}" : default;
+    string TableStripedStyle => IsStriped ? $"{UIConstants.TablePrefix}-{UIConstants.TableStriped}" : default;
+    string TableHoverStyle => IsHover ? $"{UIConstants.TablePrefix}-{UIConstants.TableHover}" : default;
+    string TableNarrowStyle => IsNarrow ? $"{UIConstants.TablePrefix}-{UIConstants.SizeSM}" : default;
+    string TableVariantStyle => Variant.GetTableVariant();
+    string TableBorderVariantStyle => BorderVariant.GetTableVariant();
+    string TableAlignStyle => Align.GetTableAlign();
+    string TableTextAlignStyle => TextAlign.GetTextAlign();
+
+    string ElementId => GenerateUIdIfEmpty();
+
+    string CombinedTableStyle
+        => string.Join(" ", TableStyle, TableVariantStyle, TableBorderStyle, TableBorderVariantStyle, TableBorderlessStyle,
+            TableStripedStyle, TableHoverStyle, TableNarrowStyle, TableAlignStyle, TableTextAlignStyle, CSSClass).RemoveWhiteSpaces();
+
+
+    string GenerateUIdIfEmpty()
+    {
+        var uid = string.IsNullOrWhiteSpace(Id) ? $"{UIConstants.TablePrefix}-{IdGenerator.Generate}" : Id;
+
+        if (OnUIDCreated != null)
+            OnUIDCreated.Invoke(uid);
+
+        return uid;
+    }
+}

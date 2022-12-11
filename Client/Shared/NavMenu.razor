@@ -1,0 +1,73 @@
+﻿ <!-- Sidebar -->
+<nav class="navbar-vertical navbar">
+    <div class="nav-scroller">
+        <!-- Brand logo -->
+        <NavLink class="navbar-brand" href="@UIConstants.VoidReference" Match="NavLinkMatch.All">
+            <Image Source="/assets/images/coc_logo_2013.png" AlternateText="clash-tracker" />
+        </NavLink>
+
+        <!-- Navbar nav -->
+        <ul class="navbar-nav flex-column" id="sideNavbar">
+            <li class="nav-item">
+                <NavLink class="nav-link has-arrow">
+                    <FeatherIcon Name="home" IsNavIcon="true" Size="SizeType.XS" CSSClass="me-2" />
+                    Dashboard
+                </NavLink>
+            </li>
+
+            <!-- Nav item -->
+            <li class="nav-item">
+                <div class="navbar-heading">Clans & Players</div>
+            </li>
+
+            <!-- Nav item -->
+            <li class="nav-item">
+                <NavLink class="nav-link has-arrow collapsed" href="" data-bs-toggle="collapse" data-bs-target="#navClans"
+                         aria-expanded="false" aria-controls="navClans" @onclick:preventDefault>
+                    <FeatherIcon Name="target" IsNavIcon="true" Size="SizeType.XS" CSSClass="me-2" />
+                    Clans
+                </NavLink>
+
+                <div id="navClans" class="collapse" data-bs-parent="#sideNavbar">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <NavLink class="nav-link" href="@RouteConstants.ClanList">
+                                Search
+                            </NavLink>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <NavLink class="nav-link has-arrow collapsed" href="" data-bs-toggle="collapse" data-bs-target="#navPlayers"
+                         aria-expanded="false" aria-controls="navPlayers" @onclick:preventDefault>
+                    <FeatherIcon Name="users" IsNavIcon="true" Size="SizeType.XS" CSSClass="me-2" />
+                    Players
+                </NavLink>
+
+                <div id="navPlayers" class="collapse" data-bs-parent="#sideNavbar">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <NavLink class="nav-link" href="" @onclick:preventDefault>
+                                Search
+                            </NavLink>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- Nav item -->
+            <li class="nav-item">
+                <div class="navbar-heading">API</div>
+            </li>
+
+            <li class="nav-item">
+                <NavLink class="nav-link has-arrow" href="fetchdata">
+                    <FeatherIcon Name="info" IsNavIcon="true" Size="SizeType.XS" CSSClass="me-2" />
+                    API Test
+                </NavLink>
+            </li>
+        </ul>
+    </div>
+</nav>

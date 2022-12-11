@@ -1,0 +1,45 @@
+﻿<EditForm Model="SearchForm" OnValidSubmit="SearchClanAsync">
+    <DataAnnotationsValidator />
+
+    <div class="row g-3 mb-3">
+        <div class="col-md-12">
+            <label class="form-label me-5">Search By</label>
+            <RadioButton Text="Name" Name="clan-search" IsInline="true" IsChecked="IsSearchByName" OnOptionChange="() => SearchForm.SearchType = ClanSearchType.Name" />
+            <RadioButton Text="Tag" Name="clan-search" IsInline="true" IsChecked="IsSearchByTag" OnOptionChange="() => SearchForm.SearchType = ClanSearchType.Tag" />
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-6">
+            @if (IsSearchByTag)
+            {
+                <InputGroup>
+                    <InputGroupText Id="igp-search-tag" Text="&#35;" BorderSize="BorderSizeType.Rounded_0" />
+
+                    <ButtonGroup>
+                        <InputText class="form-control rounded-0" placeholder="Enter clan tag" aria-describedby="igp-search-tag" @bind-Value="SearchForm.Name" />
+                        <FeatherIcon Name="x" Size="SizeType.XS" CSSClass="text-clear" Visbility="SearchForm.HasName" Clicked="ClearSearchAsync" />
+                    </ButtonGroup>
+
+                    <Button Type="ButtonType.Submit" Variant="ButtonVariantType.Primary" BorderSize="BorderSizeType.Rounded_0" Value="Search" />
+                </InputGroup>
+            }
+            else
+            {
+                <InputGroup>
+                    <ButtonGroup>
+                        <InputText class="form-control rounded-0" placeholder="Enter clan name" @bind-Value="SearchForm.Name" />
+                        <FeatherIcon Name="x" Size="SizeType.XS" CSSClass="text-clear" Visbility="SearchForm.HasName" Clicked="ClearSearchAsync" />
+                    </ButtonGroup>
+
+                    <Button Type="ButtonType.Submit" Variant="ButtonVariantType.Primary" BorderSize="BorderSizeType.Rounded_0" Value="Search" />
+                </InputGroup>
+            }
+
+            <ValidationMessage For="(() => SearchForm.Name)" />
+        </div>
+    </div>
+
+</EditForm>
+
+<PreLoader Visibility="IsSearching" />

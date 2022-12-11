@@ -1,0 +1,14 @@
+﻿@inherits LayoutComponentBase
+
+<div id="db-wrapper">
+    <!-- navbar vertical -->
+    <NavMenu />
+    <!-- page content -->
+    <div id="page-content">
+        <PageHeader />
+        <!-- Container fluid -->
+        <Container Type="ContainerType.Fluid" CSSClass="px-5 py-4">
+            @Body
+        </Container>
+    </div>
+</div>

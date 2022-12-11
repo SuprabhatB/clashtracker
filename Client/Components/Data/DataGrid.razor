@@ -1,0 +1,55 @@
+﻿@typeparam TItem
+
+@using ClashTracker.Client.Components.Tables
+
+<Table Id="@Id" Variant="Variant" BorderVariant="BorderVariant" Align="Align" TextAlign="TextAlign" IsBordered="IsBordered" IsBorderless="IsBorderless"
+       IsStriped="IsStriped" IsNarrow="IsNarrow" CSSClass="@CSSClass" OnUIDCreated="(args) => ElementId = args">
+    <TableHeader>
+        <TableRow>
+            @HeaderColumns
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        @if (ItemSource != null && ItemSource.Any())
+        {
+            foreach (var item in ItemSource)
+            {
+                <TableRow>
+                    @RowColumns(item)
+                </TableRow>
+            }
+        }
+        else
+        {
+            <TableRow>
+                <TableRowEmpty ParentRef="@ElementId" />
+            </TableRow>
+        }
+    </TableBody>
+</Table>
+
+<DataGridPagination />
+
+@code {
+    [Parameter] public RenderFragment HeaderColumns { get; set; }
+    [Parameter] public RenderFragment<TItem> RowColumns { get; set; }
+    [Parameter] public IEnumerable<TItem> ItemSource { get; set; }
+
+    //Table Parameters
+    [Parameter] public ColorType Variant { get; set; }
+    [Parameter] public ColorType BorderVariant { get; set; }
+    [Parameter] public TableAlignType Align { get; set; }
+    [Parameter] public TextAlignType TextAlign { get; set; }
+    [Parameter] public bool IsBordered { get; set; }
+    [Parameter] public bool IsBorderless { get; set; }
+    [Parameter] public bool IsStriped { get; set; }
+    [Parameter] public bool IsHover { get; set; }
+    [Parameter] public bool IsNarrow { get; set; }
+    [Parameter] public string CSSClass { get; set; }
+    [Parameter] public string Id { get; set; }
+
+    Table TableElementRef { get; set; }
+
+    TItem SelectedRow { get; set; }
+    string ElementId { get; set; }
+}

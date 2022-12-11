@@ -1,0 +1,61 @@
+﻿<button class="@CombinedButtonVariantStyle" type="@ButtonAttributeType" disabled="@IsDisabled" @attributes="Attributes">
+    @if (IconPosition == ButtonIconPositionType.Left)
+    {
+        @IconContent
+    }
+
+    @Value
+
+    @if (IconPosition == ButtonIconPositionType.Right)
+    {
+        @IconContent
+    }
+</button>
+
+@code
+{
+    [Parameter] public RenderFragment IconContent { get; set; }
+    [Parameter] public ButtonType Type { get; set; }
+    [Parameter] public ButtonVariantType Variant { get; set; }
+    [Parameter] public BorderSizeType BorderSize { get; set; }
+    [Parameter] public ButtonIconPositionType IconPosition { get; set; }
+    [Parameter] public SizeType Size { get; set; }
+    [Parameter] public bool IsOutlined { get; set; }
+    [Parameter] public bool IsDisabled { get; set; }
+    [Parameter] public string Value { get; set; }
+    [Parameter] public string CSSClass { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public IReadOnlyDictionary<string, object> Attributes { get; set; }
+
+    string ButtonAttributeType => Type.GetDisplayName();
+    string ButtonStyle => UIConstants.ButtonPrefix;
+    string ButtonVariantStyle => GetButtonVariantStyle();
+    string ButtonSizeStyle => GetButtonSizeStyle();
+    string BorderSizeStyle => BorderSize.GetBorderSize();
+
+    string CombinedButtonVariantStyle
+        => string.Join(" ", ButtonStyle, ButtonVariantStyle, ButtonSizeStyle, BorderSizeStyle, CSSClass).RemoveWhiteSpaces();
+
+    string GetButtonVariantStyle()
+    {
+        if (Variant.Equals(ButtonVariantType.None))
+            return default;
+
+        var prefix = $"{UIConstants.ButtonPrefix}-";
+
+        if (Variant.Equals(ButtonVariantType.Link))
+            return $"{prefix}{Variant.GetDisplayName()}";
+
+        if (IsOutlined)
+            prefix += $"{UIConstants.OutlinePrefix}-";
+
+        return $"{prefix}{Variant.GetDisplayName()}";
+    }
+
+    string GetButtonSizeStyle()
+    {
+        if (Size.Equals(SizeType.None))
+            return default;
+
+        return $"{UIConstants.ButtonPrefix}-{Size.GetDisplayName()}";
+    }
+}

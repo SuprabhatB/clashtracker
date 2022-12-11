@@ -1,0 +1,15 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/ClashTracker.Swag/bin/Debug
+/ClashTracker.Swag/obj
+/Client/bin/Debug
+/Client/obj
+/Server/bin/Debug
+/Server/obj
+/Shared/bin/Debug
+/Shared/obj
+/Test/ClashTracker.Test/bin/Debug
+/Test/ClashTracker.Test/obj

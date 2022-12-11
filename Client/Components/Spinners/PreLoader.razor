@@ -1,0 +1,23 @@
+﻿@if (Visibility)
+{
+    if (SpinnerEffect == SpinnerEffectType.Spin)
+    {
+        <div class="preloader">
+            <div class="loader"></div>
+        </div>
+    }
+    else if (SpinnerEffect == SpinnerEffectType.BallPulse)
+    {
+        <div class="loader-mask">
+            <div class="loader">
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    }
+}
+
+@code {
+    [Parameter] public bool Visibility { get; set; }
+    [Parameter] public SpinnerEffectType SpinnerEffect { get; set; }
+}
